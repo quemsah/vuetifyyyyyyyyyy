@@ -1,7 +1,7 @@
 <template>
   <v-app class="grey">
     <Navbar />
-    <v-content>
+    <v-content class="grey lighten-3">
       <router-view></router-view>
     </v-content>
   </v-app>
