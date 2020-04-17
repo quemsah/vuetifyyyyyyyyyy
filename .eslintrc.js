@@ -16,7 +16,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
     'arrow-parens': 0,
     'generator-star-spacing': 0,
-    'prettier/prettier': ['error', { singleQuote: true }],
+    'prettier/prettier': ['error', { singleQuote: true, endOfLine: 'auto' }],
     'quotes': ['error', 'single'],
     'semi': ['error', 'always'],
     'indent': ['error', 2],

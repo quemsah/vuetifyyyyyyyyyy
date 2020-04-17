@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
 import Dashboard from '../views/Dashboard.vue';
-import Project from '../views/Project.vue';
+import Task from '../views/Task.vue';
 
 Vue.use(VueRouter);
 
@@ -12,14 +12,14 @@ const routes = [
     component: Dashboard,
   },
   {
-    path: '/projects',
-    name: 'Project',
-    component: Project,
+    path: '/tasks',
+    name: 'Task',
+    component: Task,
   },
   {
-    path: '/team',
-    name: 'Team',
-    component: () => import('../views/Team.vue'),
+    path: '/gang',
+    name: 'Gang',
+    component: () => import('../views/Gang.vue'),
   },
 ];
 
