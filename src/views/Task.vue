@@ -2,6 +2,9 @@
   <div class="ma-3 tasks">
     <h1 class="subtitle-1 grey--text">Tasks page</h1>
     <v-container class="my-2">
+      <div v-if="isTasksDataLoading">
+        <PageLoader />
+      </div>
       <v-expansion-panels focusable>
         <v-expansion-panel v-for="task in myTasks" :key="task.title">
           <v-expansion-panel-header>{{ task.title }}</v-expansion-panel-header>
@@ -20,41 +23,34 @@
 </template>
 
 <script>
+import PageLoader from '@/components/PageLoader.vue';
+
+import axios from 'axios';
+
 export default {
+  components: { PageLoader },
   data() {
     return {
-      tasks: [
-        {
-          title: 'do a Lorem ipsum dolor',
-          person: 'Little Jacob',
-          due: '20th Apr 2020',
-          status: 'ongoing',
-          content:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!',
-        },
-        {
-          title: 'do a Lorem ipsum dolor',
-          person: 'Kiki Jenkins',
-          due: '20th Mar 2020',
-          status: 'complete',
-          content:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!',
-        },
-        {
-          title: 'do a Lorem ipsum dolor',
-          person: 'Francis McReary',
-          due: '20th Feb 2020',
-          status: 'overdue',
-          content:
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Sunt consequuntur eos eligendi illum minima adipisci deleniti, dicta mollitia enim explicabo fugiat quidem ducimus praesentium voluptates porro molestias non sequi animi!',
-        },
-      ],
+      tasks: [],
     };
   },
   computed: {
     myTasks() {
       return this.tasks.filter((task) => task.person === 'Little Jacob');
     },
+  },
+  created() {
+    this.isTasksDataLoading = true;
+    axios
+      .get('/api/tasks')
+      .then((response) => {
+        this.tasks = response.data;
+        this.isTasksDataLoading = false;
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   },
 };
 </script>

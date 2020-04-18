@@ -3,7 +3,10 @@
     <h1 class="subtitle-1 grey--text">Gang page</h1>
     <v-container class="my-2">
       <v-row row wrap class="my-2">
-        <v-col v-for="person in gang" :key="person.name" cols="12" sm="4" md="4" lg="3">
+        <v-col v-if="isGangDataLoading">
+          <PageLoader />
+        </v-col>
+        <v-col v-for="person in gang" v-else :key="person.name" cols="12" sm="4" md="4" lg="3">
           <v-card text class="text-center ma-1 pa-3">
             <v-responsive>
               <v-avatar size="100" class="grey lighten-4">
@@ -32,17 +35,30 @@
 </template>
 
 <script>
+import PageLoader from '@/components/PageLoader.vue';
+
+import axios from 'axios';
+
 export default {
+  components: { PageLoader },
   data() {
     return {
-      gang: [
-        { name: 'Little Jacob', role: 'Arms/drug dealer', avatar: '/a-1.png' },
-        { name: '​Brucie Kibbutz', role: 'Driver', avatar: '/a-1.png' },
-        { name: 'Kiki Jenkins', role: 'Lawyer', avatar: '/a-1.png' },
-        { name: 'Dwayne', role: '"Old-school" gangster', avatar: '/a-1.png' },
-        { name: 'Francis McReary', role: 'Corrupt cop', avatar: '/a-1.png' },
-      ],
+      isGangDataLoading: true,
+      gang: [],
     };
+  },
+  created() {
+    this.isGangDataLoading = true;
+    axios
+      .get('/api/gang')
+      .then((response) => {
+        this.gang = response.data;
+        this.isGangDataLoading = false;
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error.response);
+      });
   },
   methods: {
     getImgUrl(pic) {
