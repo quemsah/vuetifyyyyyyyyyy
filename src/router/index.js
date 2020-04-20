@@ -21,6 +21,10 @@ const routes = [
     name: 'Gang',
     component: () => import('../views/Gang.vue'),
   },
+  {
+    path: '/',
+    redirect: '/dashboard',
+  },
 ];
 
 const router = new VueRouter({

@@ -32,14 +32,7 @@
     </v-app-bar>
     <!-- left menu -->
     <v-navigation-drawer v-model="drawer" app class="primary">
-      <v-row no-gutters>
-        <v-col align="center" class="mt-6">
-          <v-avatar size="100" class="grey lighten-4">
-            <img src="../assets/logo.png" alt="Page logo" />
-          </v-avatar>
-          <p class="white--text subheadding mb-0 mt-3">yo</p>
-        </v-col>
-      </v-row>
+      <v-img class="ma-6" src="../assets/logo.png" alt="Page logo"> </v-img>
       <v-row class="my-3" justify="center">
         <Popup />
       </v-row>

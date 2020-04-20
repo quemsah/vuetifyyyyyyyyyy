@@ -24,15 +24,17 @@ new Server({
     //   return schema.db.todos;
     // });
 
-    // this.post('/todos', (schema, request) => {
-    //   const todo = JSON.parse(request.requestBody).data;
+    this.post('/tasks', (schema, request) => {
+      const task = JSON.parse(request.requestBody).data;
 
-    //   return schema.db.todos.insert({
-    //     title: todo,
-    //     completed: false,
-    //     editing: false,
-    //   });
-    // });
+      return schema.db.tasks.insert({
+        title: task.title,
+        desc: task.contdescent,
+        due: task.due,
+        status: task.status,
+        person: task.person,
+      });
+    });
 
     // this.patch('/todos/:id', (schema, request) => {
     //   const todo = JSON.parse(request.requestBody).data;

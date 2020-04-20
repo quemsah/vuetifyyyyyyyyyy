@@ -12,7 +12,7 @@
             <v-card flat>
               <v-card-text class="pa-0 pt-4 grey--text">
                 <div class="font-weight-bold">Due by: {{ task.due }}</div>
-                <div>{{ task.content }}</div>
+                <div>{{ task.desc }}</div>
               </v-card-text>
             </v-card>
           </v-expansion-panel-content>
@@ -46,7 +46,6 @@ export default {
       .then((response) => {
         this.tasks = response.data;
         this.isTasksDataLoading = false;
-        console.log(response);
       })
       .catch((error) => {
         console.log(error.response);

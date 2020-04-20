@@ -1,6 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog width="500">
+    <v-dialog v-model="isDialogOn" width="500">
       <template v-slot:activator="{ on }">
         <v-btn class="success" dark v-on="on">Add New Task</v-btn>
       </template>
@@ -13,15 +13,16 @@
             <v-text-field
               v-model="title"
               label="Title"
-              :rules="InputRules"
-              prepend-icon="mdi-folder"
+              :rules="inputTitleRules"
+              prepend-icon="mdi-folder-information-outline"
+              clearable
             >
             </v-text-field>
 
             <v-textarea
-              v-model="content"
+              v-model="desc"
               label="Information"
-              :rules="InputRules"
+              :rules="inputDescRules"
               prepend-icon="mdi-rename-box"
             ></v-textarea>
 
@@ -46,7 +47,9 @@
             </v-menu>
 
             <div align="center">
-              <v-btn text class="success mx-8" @click="onSubmit()">Add Task</v-btn>
+              <v-btn text class="success mx-8" :loading="isSubmitReqLoading" @click="onSubmit()"
+                >Add Task</v-btn
+              >
             </div>
           </v-form>
         </v-card-text>
@@ -55,6 +58,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 import format from 'date-fns/format';
 import parseISO from 'date-fns/parseISO';
 
@@ -62,10 +66,13 @@ export default {
   data() {
     return {
       title: '',
-      content: '',
-      due: null,
+      desc: '',
+      due: '',
       pickerMenu: false,
-      InputRules: [(x) => (x && x.length >= 5) || 'Minimum length is 5'],
+      inputTitleRules: [(x) => (x && x.length >= 5) || 'Minimum length is 5'],
+      inputDescRules: [(x) => (x && x.length >= 10) || 'Minimum length is 10'],
+      isSubmitReqLoading: false,
+      isDialogOn: false,
     };
   },
   computed: {
@@ -76,7 +83,22 @@ export default {
   methods: {
     onSubmit() {
       if (this.$refs.form.validate()) {
-        console.log(this.title, this.content);
+        this.isSubmitReqLoading = true;
+        axios
+          .post('/api/tasks', {
+            data: {
+              title: this.title,
+              desc: this.desc,
+              due: this.due,
+              status: 'open',
+              person: 'Not assigned',
+            },
+          })
+          .then(() => {
+            this.isSubmitReqLoading = false;
+            this.isDialogOn = false;
+          });
+        this.newTodo = '';
       }
     },
   },

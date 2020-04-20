@@ -78,7 +78,6 @@ export default {
       .then((response) => {
         this.tasks = response.data;
         this.isTasksDataLoading = false;
-        console.log(response);
       })
       .catch((error) => {
         console.log(error.response);
@@ -100,7 +99,7 @@ export default {
   &.ongoing {
     border-left: 4px solid orange !important;
   }
-  &.overdue {
+  &.open {
     border-left: 4px solid tomato !important;
   }
 }
@@ -116,7 +115,7 @@ export default {
   &.ongoing {
     background: orange !important;
   }
-  &.overdue {
+  &.open {
     background: tomato !important;
   }
 }

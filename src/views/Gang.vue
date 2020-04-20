@@ -54,7 +54,6 @@ export default {
       .then((response) => {
         this.gang = response.data;
         this.isGangDataLoading = false;
-        console.log(response);
       })
       .catch((error) => {
         console.log(error.response);
